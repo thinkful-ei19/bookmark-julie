@@ -1,5 +1,5 @@
 'use strict';
-/* global cuid */
+/* global cuid, $ */
 
 // eslint-disable-next-line no-unused-vars
 const store = {
