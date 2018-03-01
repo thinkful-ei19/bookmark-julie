@@ -18,10 +18,17 @@ const api = (function() {
     });
   };
 
-  
+  const deleteItem = function(id, callback) {
+    $.ajax({
+      url: BASE_URL + '/bookmarks/' + id,
+      method: 'DELETE',
+      success: callback
+    });
+  } ;
 
   return {
     getBookmark,
-    createBookmark
+    createBookmark,
+    deleteItem
   };
 }());
