@@ -4,7 +4,8 @@
 // eslint-disable-next-line no-unused-vars
 const store = {
   bookmark: [
-    { id: cuid(), 
+    { 
+      id: cuid(), 
       title: 'google maps', 
       link:'https://www.google.com/maps', 
       description:'mapquest but better', 
