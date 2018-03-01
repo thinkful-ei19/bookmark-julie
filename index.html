@@ -15,18 +15,22 @@
             <h1>Bookmarks</h1>
         </header>
         <form id="js-bookmark-form">
-            <label for="entry">Add Bookmark</label>    
-            <input type="text" name="title-entry" class="js-bookmark" placeholder="title">
-            <input type="text" name="link-entry" class="js-bookmark" placeholder="link">
-            <input type="text" name="description-entry" class="js-bookmark" placeholder="description">
-            <input type="text" name="rating-entry" class="js-bookmark" placeholder="1-5">
+            <label for="entry">Add Bookmark</label> <br>
+            <input type="text" name="title-entry" class="js-bookmark-entry" placeholder="title">
+            <input type="text" name="link-entry" class="js-bookmark-entry" placeholder="link">
+            <input type="text" name="description-entry" class="js-bookmark-entry" placeholder="description">
+            <input type="text" name="rating-entry" class="js-bookmark-entry" placeholder="1-5">
+            <button type="submit">Add</button>
         </form>
-        <section>
-            
-        </section>
-        <section>
-
-        </section>
+        <select>
+            <option value="5">5 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="2">2 Stars</option>
+            <option value="1">1 Stars</option>
+        </select>
+        <ul class="bookmark list">
+        </ul>
     </section>
     <script type="text/javascript" src="item.js"></script>
 </body>
