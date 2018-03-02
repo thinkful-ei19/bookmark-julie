@@ -8,21 +8,22 @@ const api = (function() {
   };
 
   const createBookmark = function(title, callback) {
-    const newEntry = JSON.stringify({title});
+    const newEntry = JSON.stringify(title);
     $.ajax({
-      url: BASE_URL + '/bookmarks',
-      method: 'POST',
-      contentType: 'application/json',
-      data: newEntry,
-      success: callback
+      'url': BASE_URL + '/bookmarks',
+      'method': 'POST',
+      'contentType': 'application/json',
+      'data': newEntry,
+      'success': callback
     });
   };
 
   const deleteItem = function(id, callback) {
     $.ajax({
-      url: BASE_URL + '/bookmarks/' + id,
-      method: 'DELETE',
-      success: callback
+      'url': BASE_URL + '/bookmarks/' + id,
+      'method': 'DELETE',
+      'contentType': 'application/json',
+      'success': callback
     });
   } ;
 

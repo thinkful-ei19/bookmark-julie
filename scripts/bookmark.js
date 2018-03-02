@@ -26,7 +26,6 @@ const bookmarkList = (function(){
   }
 
 
-
   function handleNewBookmarkSubmit() {
     //event listener to grab val
     // let globalId = 1;
@@ -40,27 +39,29 @@ const bookmarkList = (function(){
         url: $('.js-bookmark-entry-url').val(),
         id: cuid()
       };
+      console.log(newBookmark);
       $('.js-bookmark-entry-title').val('');
       $('.js-bookmark-entry-description').val('');
       $('.js-bookmark-entry-rating').val('');
       $('.js-bookmark-entry-url').val('');
-      // if (newBookmark.title === '') {
-      //   alert('Please enter a title');
-      //   return false;
-      // } if (newBookmark.url === '') {
-      //   alert('Please enter a url');
-      //   return false;
-      // }
+      api.createBookmark (newBookmark, function(){
+        store.addItem(newBookmark);
+        renderBookmarkList();
+      });
 
-      const bookmarkString = generateBookmark(newBookmark);
-      $('#bookmark-list').append(bookmarkString);
+      // const bookmarkString = generateBookmark(newBookmark);
+      // $('#bookmark-list').append(bookmarkString);
       // detailedView(globalId);
       // globalId++;
     });
   }
 
+  function renderNewBookmark(data) {
+    const bookmarkElement = generateBookmark(data);
+    $('#bookmark-list').prepend(bookmarkElement);
+  }
+
   function handleDetails() {
-  
     $('#bookmark-list').on('click', '#details-toggle', (event) => {
       const bookmarkId = $(event.currentTarget).attr('data-bookmark-id');
       // $(event.currentTarget).find('.bookmark-descr hidden').removeClass('hidden');
@@ -79,16 +80,17 @@ const bookmarkList = (function(){
   // }
 
   function renderBookmarkList() {
-    api.getBookmark ((bookmarks) => {
-      store.bookmarks = bookmarks;
-      const bookmarkHtmlElement = generateBookmarkString(store.bookmarks);
-      $('.bookmark-list').html(bookmarkHtmlElement);
+    api.getBookmark((bookmarks) => {
+      store.items = bookmarks;
+      const bookmarkHtmlElement = generateBookmarkString(store.items);
+      $('#bookmark-list').html(bookmarkHtmlElement);
     });
   }
+  
 
-  function apiIntegrate() {
-    api.getBookmark(function(response){
-      
+  function apiIntegrate(bookmark) {
+    api.getBookmark(bookmark, function(response){
+      console.log(response);
     });
   }
 
@@ -104,6 +106,7 @@ const bookmarkList = (function(){
 
   return {
     generateBookmark,
+    renderBookmarkList,
     bindEventListeners
   };
 }());
