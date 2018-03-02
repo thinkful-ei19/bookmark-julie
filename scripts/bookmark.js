@@ -6,72 +6,95 @@
 const bookmarkList = (function(){
 
   function generateBookmark(bookmark) {
-    // $('.bookmark-list').
-    return `<li class="bookmark-item" id="${bookmark.id}">
+    return `<li class="bookmark-item" data-bookmark-id="${bookmark.id}">
         <div class="item">
           <p class="item-title">${bookmark.title}</p>
+          <p class="bookmark-descr hidden">${bookmark.description}</p>
           <div class="item-info">
           <p>${bookmark.url}</p> 
           <p>${bookmark.rating}</p>
           </div>
-        </div>
+      <button class="bookmark-toggle" id="details-toggle"> details </button>
+      <button class="bookmark-delete" id="detail-delete"> delete </button>
       </li>`;
   }
 
-  // function generateBookmarkString(bookmarkList) {
-  //   const bookmarks = bookmarkList.map((bookmark) => generateBookmarkElement(bookmark));
-  //   return bookmarks.join(''); 
-  //   // map over array and generateBookmarkElement on each item and join
-  // }
+  function generateBookmarkString(bookmarkArray) {
+    const bookmarks = bookmarkArray.map((bookmark) => generateBookmark(bookmark));
+    return bookmarks.join('');
+    //join turns it into a string
+  }
 
-  // function renderBookmarkList() {
-  //   api.getBookmarks((bookmarks) => {
-  //     store.bookmarks = bookmarks;
-  //     const bookmarkHtmlElement = generateBookmarkString(store.bookmarks);
-  //     $('.js-bookmark-list').html(bookmarkHtmlElement);
-  //   });
-  // }
 
-  // function handleAddButtonClicked() {
-  //   $('.js-add-checked').change(function() {
-  //     if($('input[type=checkbox]').prop('checked')) {
-  //       $('.js-add-toggle').removeClass('hidden');
-  //     } else {
-  //       $('.js-add-toggle').addClass('hidden');
-  //     }
-  //   });
-  // }
-  
+
   function handleNewBookmarkSubmit() {
-    let globalId = 1;
+    //event listener to grab val
+    // let globalId = 1;
     $('#js-bookmark-form').on('submit', function(event) {
       event.preventDefault();
       const newBookmark = {
-        id: globalId,
+        // id: globalId,
         title: $('.js-bookmark-entry-title').val(),
         description: $('.js-bookmark-entry-description').val(),
         rating: $('.js-bookmark-entry-rating').val(),
-        url: $('.js-bookmark-entry-url').val()
+        url: $('.js-bookmark-entry-url').val(),
+        id: cuid()
       };
+      $('.js-bookmark-entry-title').val('');
+      $('.js-bookmark-entry-description').val('');
+      $('.js-bookmark-entry-rating').val('');
+      $('.js-bookmark-entry-url').val('');
+      // if (newBookmark.title === '') {
+      //   alert('Please enter a title');
+      //   return false;
+      // } if (newBookmark.url === '') {
+      //   alert('Please enter a url');
+      //   return false;
+      // }
+
       const bookmarkString = generateBookmark(newBookmark);
-      $('.bookmark-list').append(bookmarkString);
-      detailedView(globalId);
-      globalId++;
+      $('#bookmark-list').append(bookmarkString);
+      // detailedView(globalId);
+      // globalId++;
     });
   }
 
-  function detailedView(id) {
-    //wherever i'm invoking id, must pass argument
-    $(`#${id}`).on('click', function(){
-      if ($(`#${id} .item-info p`).length === 0) {
-        $(`#${id} .item-info`).append('<p>js-bookmark-entry-description<p>');
-      } 
+  function handleDetails() {
+  
+    $('#bookmark-list').on('click', '#details-toggle', (event) => {
+      const bookmarkId = $(event.currentTarget).attr('data-bookmark-id');
+      // $(event.currentTarget).find('.bookmark-descr hidden').removeClass('hidden');
+      $(event.currentTarget).parent().find('p.bookmark-descr').toggleClass('hidden');
     });
   }
-//add id and every time it's called increment id by 1
+
+
+  // function detailedView(id) {
+  //   //wherever i'm invoking id, must pass argument
+  //   $(`#${id}`).on('click', function(){
+  //     if ($(`#${id} .item-info p`).length === 0) {
+  //       $(`#${id} .item-info`).append('<p>js-bookmark-entry-description<p>');
+  //     } 
+  //   });
+  // }
+
+  function renderBookmarkList() {
+    api.getBookmark ((bookmarks) => {
+      store.bookmarks = bookmarks;
+      const bookmarkHtmlElement = generateBookmarkString(store.bookmarks);
+      $('.bookmark-list').html(bookmarkHtmlElement);
+    });
+  }
+
+  function apiIntegrate() {
+    api.getBookmark(function(response){
+      
+    });
+  }
 
   function bindEventListeners() {
     handleNewBookmarkSubmit();
+    handleDetails();
   }
 
 

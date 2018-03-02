@@ -8,3 +8,21 @@ body {
     font-family: 'Arial';
 }
 
+ul {
+    list-style-type: none;
+}
+
+li {
+    border: 1px solid black;
+    margin: 6px;
+}
+
+.bookmark-descr {
+    display: block;
+    border: 1px solid red;
+}
+
+.hidden {
+    display: none;
+}
+
