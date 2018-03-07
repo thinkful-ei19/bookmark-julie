@@ -2,7 +2,7 @@
 /* global $ */
 
 // eslint-disable-next-line no-unused-vars
-const store = (function() {
+const store = (function() { //front end to manage data, only lasts before a refresh. in memory
   const addItem = function(item) {
     this.items.push(item);
   };
