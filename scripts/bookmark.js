@@ -9,7 +9,7 @@ const bookmarkList = (function(){
     return `<li class="bookmark-item" data-bookmark-id="${bookmark.id}">
         <div class="item">
           <p class="item-title">${bookmark.title}</p>
-          <p class="bookmark-descr hidden">${bookmark.description}</p>
+          <p class="bookmark-descr hidden">${bookmark.desc}</p>
           <div class="item-info">
           <p>${bookmark.url}</p> 
           <p>${bookmark.rating}</p>
@@ -17,10 +17,12 @@ const bookmarkList = (function(){
       <button class="bookmark-toggle" id="details-toggle"> details </button>
       <button class="bookmark-delete" id="detail-delete"> delete </button>
       </li>`;
+      
   }
 
   function generateBookmarkString(bookmarkArray) {
     const bookmarks = bookmarkArray.map((bookmark) => generateBookmark(bookmark));
+
     return bookmarks.join('');
     //join turns it into a string
   }
@@ -34,12 +36,11 @@ const bookmarkList = (function(){
       const newBookmark = {
         // id: globalId,
         title: $('.js-bookmark-entry-title').val(),
-        description: $('.js-bookmark-entry-description').val(),
+        desc: $('.js-bookmark-entry-description').val(),
         rating: $('.js-bookmark-entry-rating').val(),
         url: $('.js-bookmark-entry-url').val(),
         id: cuid()
       };
-      console.log(newBookmark);
       $('.js-bookmark-entry-title').val('');
       $('.js-bookmark-entry-description').val('');
       $('.js-bookmark-entry-rating').val('');
@@ -88,15 +89,24 @@ const bookmarkList = (function(){
   }
   
 
-  function apiIntegrate(bookmark) {
-    api.getBookmark(bookmark, function(response){
-      console.log(response);
-    });
-  }
+  // function apiIntegrate(bookmark) {
+  //   api.getBookmark(bookmark, function(response){
+  //     console.log(response);
+  //   });
+  // }
+
+  // function handleBookmarkDeleteClicked() {
+  //   $('#bookmark-list').on('click', '#detail-delete', event => {
+  //     const id = $(event.currentTarget).attr('data-bookmark-id');
+  //     api.deleteItem(id, renderBookmarkList);
+  //   });
+  // }
+
 
   function bindEventListeners() {
     handleNewBookmarkSubmit();
     handleDetails();
+    // handleBookmarkDeleteClicked();
   }
 
 
