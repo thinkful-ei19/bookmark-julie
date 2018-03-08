@@ -1,5 +1,5 @@
 'use strict';
-/* global $, store, api */
+/* global $, store, api, cuid */
 
 //eslint -disable-next-line no-unused-vars
 
@@ -48,7 +48,8 @@ const bookmarkList = (function(){
       api.createBookmark (newBookmark, function(){
         store.addItem(newBookmark);
         renderBookmarkList();
-      });
+      })
+        .fail(renderError);
 
       // const bookmarkString = generateBookmark(newBookmark);
       // $('#bookmark-list').append(bookmarkString);
@@ -79,6 +80,12 @@ const bookmarkList = (function(){
   //     } 
   //   });
   // }
+  
+  //where api is sent to createBookmark, when error occurs
+  //api creates a promise (line 12) return that
+  //line 12 function returns a promise that can 
+  //send to renderError
+
 
   function renderBookmarkList() {
     api.getBookmark((bookmarks) => {
@@ -88,6 +95,17 @@ const bookmarkList = (function(){
     });
   }
   
+  function renderError(error) {
+    alert(error.responseJSON.message);
+
+  }
+  
+
+  //storing data as an array which has the method filter 
+  //filter on array based on 
+  //if click 5 then display filter rating of 5
+  //if click __ read filter off of __ storing that into a variable and bring it out later
+
 
   // function apiIntegrate(bookmark) {
   //   api.getBookmark(bookmark, function(response){
@@ -95,18 +113,20 @@ const bookmarkList = (function(){
   //   });
   // }
 
-  // function handleBookmarkDeleteClicked() {
-  //   $('#bookmark-list').on('click', '#detail-delete', event => {
-  //     const id = $(event.currentTarget).attr('data-bookmark-id');
-  //     api.deleteItem(id, renderBookmarkList);
-  //   });
-  // }
+  function handleBookmarkDeleteClicked() {
+    $('#bookmark-list').on('click', '#detail-delete', event => {
+      const id = $(event.currentTarget).closest('li').attr('data-bookmark-id');
+      console.log(id);
+      api.deleteItem(id, renderBookmarkList)
+        .fail(renderError);
+    });
+  }
 
 
   function bindEventListeners() {
     handleNewBookmarkSubmit();
     handleDetails();
-    // handleBookmarkDeleteClicked();
+    handleBookmarkDeleteClicked();
   }
 
 
@@ -117,6 +137,7 @@ const bookmarkList = (function(){
   return {
     generateBookmark,
     renderBookmarkList,
+    renderError,
     bindEventListeners
   };
 }());
