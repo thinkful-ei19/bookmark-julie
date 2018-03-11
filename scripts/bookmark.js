@@ -12,7 +12,7 @@ const bookmarkList = (function(){
           <p class="bookmark-descr hidden">${bookmark.desc}</p>
           <div class="item-info">
           <p>${bookmark.url}</p> 
-          <p>${bookmark.rating}</p>
+          <p class="rating">${bookmark.rating}</p>
           </div>
       <button class="bookmark-toggle" id="details-toggle"> details </button>
       <button class="bookmark-delete" id="detail-delete"> delete </button>
@@ -74,25 +74,24 @@ const bookmarkList = (function(){
   //if click 5 then display filter rating of 5
   //if click __ read filter off of __ storing that into a variable and bring it out later
 
-  // function handleRating() {
-  // $('#rating-filter').on('change', event => {
-  // const rating = $(event.target).find('option:selected').val();
-  // store.minimumRating = rating
-  // if (store.minimumRating > 1) {
-  // items = items.filter(item => item.rating >= store.minimumRating);
+  function handleRating() {
+    $('#rating-filter').on('change', event => { //fat arrow doesn't create new scope
+      const rating = $(event.target).find('option:selected').val();
+      console.log(rating);
+      $('.bookmark-item').each(function(item) {
+        if ($(this).find('.rating').text() >= rating) {
+          $(this).removeClass('hidden');
+        } else {
+          $(this).addClass('hidden');
+        } 
+      });
+    });
+  }
 
-  // }
-  // });
-  //   $('#rating-filter').each(function () {
-  //     const rating = $(event.target).find('option:selected').val();
-  //     if (rating > 1) {
-  //       $(this).show();
-  //     } else {
-  //       $(this).hide();
-  //     }
-  //   });
 
-  // }
+
+
+
 
 
   function renderBookmarkList() {
@@ -130,7 +129,7 @@ const bookmarkList = (function(){
     handleNewBookmarkSubmit();
     handleDetails();
     handleBookmarkDeleteClicked();
-    // handleRating();
+    handleRating();
   }
 
 
