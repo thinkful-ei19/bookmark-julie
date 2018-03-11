@@ -51,10 +51,7 @@ const bookmarkList = (function(){
       })
         .fail(renderError);
 
-      // const bookmarkString = generateBookmark(newBookmark);
-      // $('#bookmark-list').append(bookmarkString);
-      // detailedView(globalId);
-      // globalId++;
+ 
     });
   }
 
@@ -72,19 +69,30 @@ const bookmarkList = (function(){
   }
 
 
-  // function detailedView(id) {
-  //   //wherever i'm invoking id, must pass argument
-  //   $(`#${id}`).on('click', function(){
-  //     if ($(`#${id} .item-info p`).length === 0) {
-  //       $(`#${id} .item-info`).append('<p>js-bookmark-entry-description<p>');
-  //     } 
-  //   });
+  //storing data as an array which has the method filter 
+  //filter on array based on 
+  //if click 5 then display filter rating of 5
+  //if click __ read filter off of __ storing that into a variable and bring it out later
+
+  // function handleRating() {
+  // $('#rating-filter').on('change', event => {
+  // const rating = $(event.target).find('option:selected').val();
+  // store.minimumRating = rating
+  // if (store.minimumRating > 1) {
+  // items = items.filter(item => item.rating >= store.minimumRating);
+
   // }
-  
-  //where api is sent to createBookmark, when error occurs
-  //api creates a promise (line 12) return that
-  //line 12 function returns a promise that can 
-  //send to renderError
+  // });
+  //   $('#rating-filter').each(function () {
+  //     const rating = $(event.target).find('option:selected').val();
+  //     if (rating > 1) {
+  //       $(this).show();
+  //     } else {
+  //       $(this).hide();
+  //     }
+  //   });
+
+  // }
 
 
   function renderBookmarkList() {
@@ -101,11 +109,7 @@ const bookmarkList = (function(){
   }
   
 
-  //storing data as an array which has the method filter 
-  //filter on array based on 
-  //if click 5 then display filter rating of 5
-  //if click __ read filter off of __ storing that into a variable and bring it out later
-
+ 
 
   // function apiIntegrate(bookmark) {
   //   api.getBookmark(bookmark, function(response){
@@ -116,7 +120,6 @@ const bookmarkList = (function(){
   function handleBookmarkDeleteClicked() {
     $('#bookmark-list').on('click', '#detail-delete', event => {
       const id = $(event.currentTarget).closest('li').attr('data-bookmark-id');
-      console.log(id);
       api.deleteItem(id, renderBookmarkList)
         .fail(renderError);
     });
@@ -127,6 +130,7 @@ const bookmarkList = (function(){
     handleNewBookmarkSubmit();
     handleDetails();
     handleBookmarkDeleteClicked();
+    // handleRating();
   }
 
 
