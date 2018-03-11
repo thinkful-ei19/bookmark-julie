@@ -7,8 +7,8 @@ $(document).ready(function() {
 
   // api.getBookmark((bookmarks) => {
   //   bookmarks.forEach((item) => store.addItem(item)); 
-    //each of the item we're getting back we're storing them into the store
-    //bookmarkList.render();
+  //each of the item we're getting back we're storing them into the store
+  //bookmarkList.render();
   // });
   
 });

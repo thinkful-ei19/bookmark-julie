@@ -9,7 +9,7 @@ const api = (function() {
 
   const createBookmark = function(title, callback) {
     const newEntry = JSON.stringify(title);
-    $.ajax({
+    return $.ajax({ 
       'url': BASE_URL + '/bookmarks',
       'method': 'POST',
       'contentType': 'application/json',
@@ -19,7 +19,7 @@ const api = (function() {
   };
 
   const deleteItem = function(id, callback) {
-    $.ajax({
+    return $.ajax({
       'url': BASE_URL + '/bookmarks/' + id,
       'method': 'DELETE',
       'contentType': 'application/json',

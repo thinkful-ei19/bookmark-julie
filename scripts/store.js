@@ -2,10 +2,19 @@
 /* global $ */
 
 // eslint-disable-next-line no-unused-vars
-const store = (function() {
+const store = (function() { //front end to manage data, only lasts before a refresh. in memory
   const addItem = function(item) {
     this.items.push(item);
   };
+
+  const findById = function(id) {
+    return this.items.find(bookmark => bookmark.id === id);
+  };
+
+  const deleteItem = (function() {
+    const bookmarkId = this.findById(id)
+    this.items.splice(bookmarkId, 1);
+  });
   // {
   // bookmark: [
     // { 
@@ -27,11 +36,10 @@ const store = (function() {
   // ],
   return {
     items: [],
-    adding: false,
-    expand: false,
-    rating: null,
-
-    addItem
+    minimumRating: 1,
+    addItem,
+    findById,
+    deleteItem
   };
 }());
   

@@ -1,5 +1,5 @@
 'use strict';
-/* global $, store, api */
+/* global $, store, api, cuid */
 
 //eslint -disable-next-line no-unused-vars
 
@@ -9,18 +9,20 @@ const bookmarkList = (function(){
     return `<li class="bookmark-item" data-bookmark-id="${bookmark.id}">
         <div class="item">
           <p class="item-title">${bookmark.title}</p>
-          <p class="bookmark-descr hidden">${bookmark.description}</p>
+          <p class="bookmark-descr hidden">${bookmark.desc}</p>
           <div class="item-info">
           <p>${bookmark.url}</p> 
-          <p>${bookmark.rating}</p>
+          <p class="rating">${bookmark.rating}</p>
           </div>
       <button class="bookmark-toggle" id="details-toggle"> details </button>
       <button class="bookmark-delete" id="detail-delete"> delete </button>
       </li>`;
+      
   }
 
   function generateBookmarkString(bookmarkArray) {
     const bookmarks = bookmarkArray.map((bookmark) => generateBookmark(bookmark));
+
     return bookmarks.join('');
     //join turns it into a string
   }
@@ -34,12 +36,11 @@ const bookmarkList = (function(){
       const newBookmark = {
         // id: globalId,
         title: $('.js-bookmark-entry-title').val(),
-        description: $('.js-bookmark-entry-description').val(),
+        desc: $('.js-bookmark-entry-description').val(),
         rating: $('.js-bookmark-entry-rating').val(),
         url: $('.js-bookmark-entry-url').val(),
         id: cuid()
       };
-      console.log(newBookmark);
       $('.js-bookmark-entry-title').val('');
       $('.js-bookmark-entry-description').val('');
       $('.js-bookmark-entry-rating').val('');
@@ -47,12 +48,10 @@ const bookmarkList = (function(){
       api.createBookmark (newBookmark, function(){
         store.addItem(newBookmark);
         renderBookmarkList();
-      });
+      })
+        .fail(renderError);
 
-      // const bookmarkString = generateBookmark(newBookmark);
-      // $('#bookmark-list').append(bookmarkString);
-      // detailedView(globalId);
-      // globalId++;
+ 
     });
   }
 
@@ -70,14 +69,30 @@ const bookmarkList = (function(){
   }
 
 
-  // function detailedView(id) {
-  //   //wherever i'm invoking id, must pass argument
-  //   $(`#${id}`).on('click', function(){
-  //     if ($(`#${id} .item-info p`).length === 0) {
-  //       $(`#${id} .item-info`).append('<p>js-bookmark-entry-description<p>');
-  //     } 
-  //   });
-  // }
+  //storing data as an array which has the method filter 
+  //filter on array based on 
+  //if click 5 then display filter rating of 5
+  //if click __ read filter off of __ storing that into a variable and bring it out later
+
+  function handleRating() {
+    $('#rating-filter').on('change', event => { //fat arrow doesn't create new scope
+      const rating = $(event.target).find('option:selected').val();
+      console.log(rating);
+      $('.bookmark-item').each(function(item) {
+        if ($(this).find('.rating').text() >= rating) {
+          $(this).removeClass('hidden');
+        } else {
+          $(this).addClass('hidden');
+        } 
+      });
+    });
+  }
+
+
+
+
+
+
 
   function renderBookmarkList() {
     api.getBookmark((bookmarks) => {
@@ -87,16 +102,34 @@ const bookmarkList = (function(){
     });
   }
   
+  function renderError(error) {
+    alert(error.responseJSON.message);
 
-  function apiIntegrate(bookmark) {
-    api.getBookmark(bookmark, function(response){
-      console.log(response);
+  }
+  
+
+ 
+
+  // function apiIntegrate(bookmark) {
+  //   api.getBookmark(bookmark, function(response){
+  //     console.log(response);
+  //   });
+  // }
+
+  function handleBookmarkDeleteClicked() {
+    $('#bookmark-list').on('click', '#detail-delete', event => {
+      const id = $(event.currentTarget).closest('li').attr('data-bookmark-id');
+      api.deleteItem(id, renderBookmarkList)
+        .fail(renderError);
     });
   }
+
 
   function bindEventListeners() {
     handleNewBookmarkSubmit();
     handleDetails();
+    handleBookmarkDeleteClicked();
+    handleRating();
   }
 
 
@@ -107,6 +140,7 @@ const bookmarkList = (function(){
   return {
     generateBookmark,
     renderBookmarkList,
+    renderError,
     bindEventListeners
   };
 }());
