@@ -17,13 +17,14 @@
         <form id="js-bookmark-form">
             <label for="entry">Add Bookmark</label> 
             <input type="text" name="title-entry" class="js-bookmark-entry-title" placeholder="title">
-            <input type="text" name="url-entry" class="js-bookmark-entry-url" placeholder="url">
+            <input type="url" name="url-entry" class="js-bookmark-entry-url" placeholder="url">
             <input type="text" name="description-entry" class="js-bookmark-entry-description" placeholder="description">
             <input type="text" name="rating-entry" class="js-bookmark-entry-rating" placeholder="1-5">
             <button type="submit">Add</button>
         </form>
         <label for="rating">Rating Filter</label> 
         <select>
+            <option value="none" selected></option>
             <option value="5">5</option>
             <option value="4">4</option>
             <option value="3">3</option>
