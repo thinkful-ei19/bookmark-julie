@@ -67,7 +67,7 @@ const bookmarkList = (function(){
       // $(event.currentTarget).find('.bookmark-descr hidden').removeClass('hidden');
       $(event.currentTarget).parent().find('p.bookmark-descr').toggleClass('hidden');
     });
-    $('#bookmark-list').on('click', '#details-delete', (event) => {
+    $('#bookmark-list').on('click', '#detail-delete', (event) => {
       const bookmarkId = $(event.currentTarget).attr('data-bookmark-id');
       // $(event.currentTarget).find('.bookmark-descr hidden').removeClass('hidden');
       // $(event.currentTarget).parent().find('p.bookmark-descr').toggleClass('hidden');
