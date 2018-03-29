@@ -1,7 +1,7 @@
 'use strict';
 /* global $ */
 const api = (function() {
-  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/julie';
+  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/juliek';
 
   const getBookmark = function(callback) {
     $.getJSON(BASE_URL + '/bookmarks', callback);

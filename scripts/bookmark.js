@@ -1,5 +1,5 @@
 'use strict';
-/* global $, store, api */
+/* global $, store, api, cuid */
 
 //eslint -disable-next-line no-unused-vars
 
@@ -9,7 +9,7 @@ const bookmarkList = (function(){
     return `<li class="bookmark-item" data-bookmark-id="${bookmark.id}">
         <div class="item">
           <p class="item-title">${bookmark.title}</p>
-          <p class="bookmark-descr hidden">${bookmark.description}</p>
+          <p class="bookmark-desc hidden">${bookmark.desc}</p>
           <div class="item-info">
           <p>${bookmark.url}</p> 
           <p>${bookmark.rating}</p>
@@ -64,8 +64,8 @@ const bookmarkList = (function(){
   function handleDetails() {
     $('#bookmark-list').on('click', '#details-toggle', (event) => {
       const bookmarkId = $(event.currentTarget).attr('data-bookmark-id');
-      // $(event.currentTarget).find('.bookmark-descr hidden').removeClass('hidden');
-      $(event.currentTarget).parent().find('p.bookmark-descr').toggleClass('hidden');
+      // $(event.currentTarget).find('.bookmark-desc hidden').removeClass('hidden');
+      $(event.currentTarget).parent().find('p.bookmark-desc').toggleClass('hidden');
     });
   }  
   function handleDelete() { 
@@ -75,17 +75,6 @@ const bookmarkList = (function(){
     });
   }
 
-
-
-
-  // function detailedView(id) {
-  //   //wherever i'm invoking id, must pass argument
-  //   $(`#${id}`).on('click', function(){
-  //     if ($(`#${id} .item-info p`).length === 0) {
-  //       $(`#${id} .item-info`).append('<p>js-bookmark-entry-description<p>');
-  //     } 
-  //   });
-  // }
 
   function renderBookmarkList() {
     api.getBookmark((bookmarks) => {
